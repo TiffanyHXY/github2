@@ -1,0 +1,47 @@
+{% extends 'home.html' %}
+{% block content %}
+    <a href="{% url 'author_add' %}" class="btn btn-success">添加</a>
+<table class="table table-hover table-striped table-bordered">
+<thead>
+<tr>
+    <th>id</th>
+    <th>name</th>
+    <th>age</th>
+    <th>phone</th>
+    <th>addr</th>
+    <th>book</th>
+    <th>action</th>
+
+</tr>
+</thead>
+<tbody>
+
+{% for author_obj in author_list %}
+<tr>
+    <td>{{ author_obj.pk }}</td>
+    <td>{{ author_obj.name }}</td>
+    <td>{{ author_obj.age }}</td>
+    <td>{{ author_obj.authordetail.phone }}</td>
+    <td>{{ author_obj.authordetail.addr }}</td>
+    <td>
+{#        {{ author_obj.book_set.all }}#}
+         {% for book  in author_obj.book_set.all %}
+
+             {% if forloop.last %}
+                {{ book.title }}
+                {% else %}
+                 {{ book.title }},
+            {% endif %}
+    {% endfor %}
+    </td>
+    <td>
+        <a href="{% url 'author_edit' author_obj.pk %}" class="btn btn-primary btn-sm">编辑</a>
+        <a href="{% url 'author_delete' author_obj.pk %}" class="btn btn-primary btn-sm">删除</a>
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}
